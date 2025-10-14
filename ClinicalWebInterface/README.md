@@ -13,8 +13,8 @@ This project provides a minimal React template with a clean, modern UI and minim
 
 Environment:
 - Create a .env file based on .env.example and set REACT_APP_API_BASE_URL.
-  - Localhost: http://localhost:3001
-  - Container networking: http://BackendServices:3001
+  - Localhost: http://localhost:3000
+  - Container networking: http://BackendServices:3000
 
 In the project directory, you can run:
 

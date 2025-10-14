@@ -10,7 +10,7 @@ const AppHeader: React.FC = () => {
   return (
     <header className="app-header">
       <div className="app-header-inner">
-        <Link to="/" className="brand" aria-label="Clinical Interface home">
+        <Link to={isAuthenticated ? "/dashboard" : "/login"} className="brand" aria-label="Clinical Interface home">
           Clinical Interface
         </Link>
 

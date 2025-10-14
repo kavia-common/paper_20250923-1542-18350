@@ -3,9 +3,15 @@
 // Uses fetch under the hood to avoid adding dependencies.
 //
 // Base URL resolution order:
-// 1) process.env.REACT_APP_API_BASE_URL
-// 2) window.location.origin (fallback)
-// 3) 'http://localhost:3001' (final fallback)
+/**
+ * 1) process.env.REACT_APP_API_BASE_URL
+ * 2) window.location.origin (fallback)
+ * 3) 'http://localhost:3000' (final fallback)
+ *
+ * Note: Our backend routes are under /api; callers should pass paths without leading slash,
+ * e.g., 'api/auth/login'. The buildUrl helper will not add '/api' automatically to avoid
+ * double-prefixing when absolute URLs are provided.
+ */
 //
 // Notes:
 // - To run against Docker/K8s container networking, set REACT_APP_API_BASE_URL to
@@ -23,7 +29,7 @@ export interface HttpError extends Error {
 
 const envBase = (process.env.REACT_APP_API_BASE_URL || '').trim().replace(/\/+$/, '');
 const originFallback = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : '';
-const defaultBase = 'http://localhost:3001';
+const defaultBase = 'http://localhost:3000';
 
 // Prefer env, then origin-relative, then localhost
 const resolvedBaseUrl = envBase || originFallback || defaultBase;
@@ -57,8 +63,13 @@ export interface RequestOptions extends RequestInit {
 }
 
 function buildUrl(path: string): string {
-  const trimmedPath = path.replace(/^\/*/, ''); // remove leading slashes
-  return `${resolvedBaseUrl}/${trimmedPath}`;
+  // If caller provided an absolute URL, return as-is
+  if (/^https?:\/\//i.test(path)) return path;
+
+  // Normalize and ensure single slash between base and path
+  const trimmedBase = resolvedBaseUrl.replace(/\/*$/, '');
+  const trimmedPath = path.replace(/^\/*/, '');
+  return `${trimmedBase}/${trimmedPath}`;
 }
 
 function extractErrorMessage(data: any, fallback: string): string {
@@ -152,6 +163,6 @@ export const http = {
 
 // README note for environment:
 // .env.example
-// REACT_APP_API_BASE_URL=http://localhost:3001
+// REACT_APP_API_BASE_URL=http://localhost:3000
 // # For container networking (e.g., docker-compose/k8s):
-// # REACT_APP_API_BASE_URL=http://BackendServices:3001
+// # REACT_APP_API_BASE_URL=http://BackendServices:3000

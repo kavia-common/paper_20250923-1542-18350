@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
+// This screen submits credentials to POST /api/auth/login via AuthContext->authService->http client.
+// Shows loading, handles error, and redirects to /dashboard on success.
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
@@ -14,7 +16,7 @@ const Login: React.FC = () => {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as LocationState)?.from?.pathname || '/';
+  const from = (location.state as LocationState)?.from?.pathname || '/dashboard';
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -48,7 +50,7 @@ const Login: React.FC = () => {
     const res = await login(identifier.trim(), password, { remember });
     setSubmitting(false);
     if (res.ok) {
-      navigate(from || '/', { replace: true });
+      navigate(from || '/dashboard', { replace: true });
     } else {
       // Surface backend-provided message if available
       setError(res.error || 'Invalid credentials');

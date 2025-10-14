@@ -20,9 +20,9 @@ setTokenProvider(() => readToken());
 // PUBLIC_INTERFACE
 export async function login(payload: LoginPayload, signal?: AbortSignal): Promise<LoginResponse> {
   try {
-    // Backend endpoints (no leading slash in http wrapper path)
-    // Acceptance criteria expects: POST /auth/login -> { token, user }
-    const data = await http.post<LoginResponse>('auth/login', payload, { signal, skipAuth: true });
+    // Backend endpoints under /api
+    // Acceptance criteria expects: POST /api/auth/login -> { token, user }
+    const data = await http.post<LoginResponse>('api/auth/login', payload, { signal, skipAuth: true });
 
     const token = data?.token ?? null;
     const user = (data?.user as User | undefined) ?? null;
@@ -42,7 +42,7 @@ export async function login(payload: LoginPayload, signal?: AbortSignal): Promis
 export async function logout(signal?: AbortSignal): Promise<void> {
   try {
     // Best-effort server logout
-    await http.post('auth/logout', undefined, { signal });
+    await http.post('api/auth/logout', undefined, { signal });
   } catch {
     // ignore failures; proceed to clear client state
   }
@@ -56,7 +56,7 @@ export async function getMe(signal?: AbortSignal): Promise<User | null> {
   const t = readToken();
   if (!t) return null;
   try {
-    const data = await http.get<{ user: User }>('auth/me', { signal });
+    const data = await http.get<{ user: User }>('api/auth/me', { signal });
     const user = data?.user;
     if (user && user.id) {
       return user;
