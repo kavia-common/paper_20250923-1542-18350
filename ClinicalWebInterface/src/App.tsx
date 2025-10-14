@@ -16,8 +16,12 @@ const Dashboard: React.FC = () => (
   </div>
 );
 
-// PUBLIC_INTERFACE
-function App(): JSX.Element {
+/**
+ * PUBLIC_INTERFACE
+ * App is the SPA shell with AuthProvider and Router.
+ * Unauthenticated users are redirected to /login by ProtectedRoute.
+ */
+function App(): React.ReactElement {
   return (
     <AuthProvider>
       <BrowserRouter>
