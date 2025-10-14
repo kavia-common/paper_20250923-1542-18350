@@ -50,6 +50,7 @@ const Login: React.FC = () => {
     if (res.ok) {
       navigate(from || '/', { replace: true });
     } else {
+      // Surface backend-provided message if available
       setError(res.error || 'Invalid credentials');
     }
   };

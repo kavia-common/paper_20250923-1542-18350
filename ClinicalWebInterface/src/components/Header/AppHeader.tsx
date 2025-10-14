@@ -18,6 +18,7 @@ const AppHeader: React.FC = () => {
           {isAuthenticated ? (
             <div className="user-controls">
               <span className="user-name" aria-live="polite">Hello, {user?.name || 'User'}</span>
+              {/* Logout triggers backend best-effort POST /auth/logout then clears client session */}
               <button className="btn-logout" onClick={() => logout()} aria-label="Logout">
                 Logout
               </button>

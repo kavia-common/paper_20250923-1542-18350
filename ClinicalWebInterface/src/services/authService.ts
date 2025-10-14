@@ -1,46 +1,78 @@
 import { LoginPayload, LoginResponse, User } from '../types/auth';
+import { http, setTokenProvider } from './http';
+import { keys, local, session } from '../utils/storage';
 
-const baseUrl = (process.env.REACT_APP_API_BASE_URL || '').replace(/\/+$/, ''); // trim trailing slash
+/**
+ * Storage helpers for token/user persistence
+ */
+function readToken(): string | null {
+  return (local.get<string>(keys.TOKEN) || session.get<string>(keys.TOKEN)) ?? null;
+}
+function readUser(): User | null {
+  return (local.get<User>(keys.USER) || session.get<User>(keys.USER)) ?? null;
+}
+
+/**
+ * Ensure HTTP wrapper knows how to fetch the latest token for Authorization header injection.
+ */
+setTokenProvider(() => readToken());
 
 // PUBLIC_INTERFACE
 export async function login(payload: LoginPayload, signal?: AbortSignal): Promise<LoginResponse> {
-  const url = `${baseUrl}/api/auth/login`;
   try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-      signal,
-    });
+    // Backend endpoints (no leading slash in http wrapper path)
+    // Acceptance criteria expects: POST /auth/login -> { token, user }
+    const data = await http.post<LoginResponse>('auth/login', payload, { signal, skipAuth: true });
 
-    const data = (await res.json().catch(() => ({}))) as LoginResponse | Record<string, unknown>;
-
-    if (!res.ok) {
-      const message =
-        (data as LoginResponse)?.error ||
-        (data as LoginResponse)?.message ||
-        `Login failed with status ${res.status}`;
-      return { token: null, user: null, error: String(message) };
-    }
-
-    const token = (data as LoginResponse)?.token ?? null;
-    const user = (data as LoginResponse)?.user ?? null;
+    const token = data?.token ?? null;
+    const user = (data?.user as User | undefined) ?? null;
 
     if (!token || !user) {
       return { token: null, user: null, error: 'Invalid response from server.' };
     }
 
-    return { token, user: user as User };
+    return { token, user };
   } catch (e: any) {
-    const message = e?.name === 'AbortError' ? 'Request cancelled' : 'Unable to reach server';
+    const message = e?.message || 'Unable to reach server';
     return { token: null, user: null, error: message };
   }
 }
 
 // PUBLIC_INTERFACE
-export async function logout(): Promise<void> {
-  // For now, client-only. If backend needs a call, add it here.
-  return Promise.resolve();
+export async function logout(signal?: AbortSignal): Promise<void> {
+  try {
+    // Best-effort server logout
+    await http.post('auth/logout', undefined, { signal });
+  } catch {
+    // ignore failures; proceed to clear client state
+  }
 }
+
+/**
+ * PUBLIC_INTERFACE
+ * getMe fetches the current user session if token exists; returns User or null
+ */
+export async function getMe(signal?: AbortSignal): Promise<User | null> {
+  const t = readToken();
+  if (!t) return null;
+  try {
+    const data = await http.get<{ user: User }>('auth/me', { signal });
+    const user = data?.user;
+    if (user && user.id) {
+      return user;
+    }
+    return null;
+  } catch (e: any) {
+    // Surface 401 for callers to handle (e.g., redirect to login)
+    if (e?.status === 401) {
+      throw e;
+    }
+    return null;
+  }
+}
+
+// Expose small helpers for other modules if needed
+export const authStorage = {
+  readToken,
+  readUser,
+};

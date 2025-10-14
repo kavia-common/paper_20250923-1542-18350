@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { login as loginApi, logout as logoutApi } from '../services/authService';
+import { login as loginApi, logout as logoutApi, getMe } from '../services/authService';
 import { User } from '../types/auth';
 import { keys, local, session } from '../utils/storage';
 
@@ -40,9 +40,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [auth, setAuth] = useState<AuthState>(() => readPersistedAuth());
   const rememberRef = useRef<boolean>(false);
 
+  // On mount, if token exists but no user, try to refresh session via /auth/me
   useEffect(() => {
-    // No-op on mount; state initialized from storage
-  }, []);
+    let cancelled = false;
+    const init = async () => {
+      if (auth.token && !auth.user) {
+        try {
+          const me = await getMe();
+          if (!cancelled && me) {
+            const next = { token: auth.token, user: me };
+            setAuth(next);
+            // Don't change remember store on hydration; keep where token was found
+            const store = local.get<string>(keys.TOKEN) ? local : session;
+            store.set(keys.USER, me);
+          }
+        } catch (e: any) {
+          // On 401, clear auth so ProtectedRoute redirects to login
+          if (e?.status === 401) {
+            setAuth({ token: null, user: null });
+            clearAllStorage();
+          }
+        }
+      }
+    };
+    void init();
+    return () => {
+      cancelled = true;
+    };
+  }, []); // run once
 
   const persist = useCallback((next: AuthState) => {
     // Choose storage based on remember flag

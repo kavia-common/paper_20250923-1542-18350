@@ -3,8 +3,10 @@ export type UserRole = 'admin' | 'clinician' | 'nurse' | 'anesthesiologist' | 's
 export interface User {
   id: string;
   name: string;
-  role?: UserRole;
   email?: string;
+  role?: UserRole;
+  // Allow additional backend-provided properties without breaking typing
+  [key: string]: any;
 }
 
 export interface LoginPayload {
@@ -15,7 +17,8 @@ export interface LoginPayload {
 export interface LoginResponse {
   token?: string | null;
   user?: User | null;
-  // Allow backend to include optional message or error
+  // Optional backend-provided message or error to surface to UI
   message?: string;
   error?: string;
+  [key: string]: any;
 }

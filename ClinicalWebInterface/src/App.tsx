@@ -7,6 +7,10 @@ import Login from './pages/Login/Login';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import AppHeader from './components/Header/AppHeader';
 
+/**
+ * After a successful login, users are redirected to "/" which is protected by ProtectedRoute.
+ * Adjust the path to your dashboard as needed (e.g., '/dashboard').
+ */
 // Simple placeholder dashboard component
 const Dashboard: React.FC = () => (
   <div className="App">
