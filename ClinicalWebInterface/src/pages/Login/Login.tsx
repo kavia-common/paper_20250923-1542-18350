@@ -1,14 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 // This screen submits credentials to POST /api/auth/login via AuthContext->authService->http client.
 // Shows loading, handles error, and redirects to /dashboard on success.
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link, Location as RouterLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
-type LocationState = { from?: Location };
+// Narrow location state typing to avoid DOM Location name clash
+type LocationState = { from?: RouterLocation };
 
 function isEmailLike(value: string): boolean {
-  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value);
+  return /^[^\@\s]+@[^\@\s]+\.[^\@\s]+$/.test(value);
 }
 
 // PUBLIC_INTERFACE
@@ -16,7 +17,7 @@ const Login: React.FC = () => {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as LocationState)?.from?.pathname || '/dashboard';
+  const from = (location.state as LocationState | null)?.from?.pathname || '/dashboard';
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +31,8 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/', { replace: true });
+      // If already authenticated, go to dashboard
+      navigate('/dashboard', { replace: true });
     }
   }, [isAuthenticated, navigate]);
 

@@ -14,10 +14,13 @@ interface LoginOptions {
 
 interface AuthContextValue extends AuthState {
   // PUBLIC_INTERFACE
+  /** Attempt to login with identifier (email/username) and password */
   login: (identifier: string, password: string, options?: LoginOptions) => Promise<{ ok: boolean; error?: string }>;
   // PUBLIC_INTERFACE
+  /** Logout best-effort server call and clear client session */
   logout: () => Promise<void>;
   // PUBLIC_INTERFACE
+  /** True when both token and user are present */
   isAuthenticated: boolean;
 }
 

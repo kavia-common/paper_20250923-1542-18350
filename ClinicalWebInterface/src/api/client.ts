@@ -10,7 +10,11 @@ export const apiBaseUrl = getBaseUrl();
 // PUBLIC_INTERFACE
 export const http = coreHttp;
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * buildApiPath ensures API paths are prefixed with "api/" without leading slashes.
+ * Pass only the path segment, e.g., "auth/login" -> "api/auth/login"
+ */
 export function buildApiPath(path: string): string {
   const trimmed = path.replace(/^\/*/, '');
   return `api/${trimmed}`;

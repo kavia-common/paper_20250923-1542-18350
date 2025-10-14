@@ -84,6 +84,10 @@ function extractErrorMessage(data: any, fallback: string): string {
  * PUBLIC_INTERFACE
  * httpRequest performs a fetch with base URL, JSON handling, auth header injection,
  * and normalized error surface.
+ * @param path - Relative or absolute URL (if absolute, base will not be prefixed)
+ * @param method - HTTP method
+ * @param options - Request options including headers, body, skipAuth, and signal
+ * @returns Parsed JSON or text coerced to T on success; throws HttpError on failure
  */
 export async function httpRequest<T = any>(path: string, method: HttpMethod, options: RequestOptions = {}): Promise<T> {
   const url = buildUrl(path);

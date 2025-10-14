@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './AppHeader.css';
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * AppHeader renders the brand link and user controls (Sign In/Logout).
+ * It adapts to authentication state and routes users to login or dashboard.
+ */
 const AppHeader: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
 
