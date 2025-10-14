@@ -47,11 +47,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     let cancelled = false;
     const init = async () => {
-      if (auth.token && !auth.user) {
+      const { token, user } = auth;
+      if (token && !user) {
         try {
           const me = await getMe();
           if (!cancelled && me) {
-            const next = { token: auth.token, user: me };
+            const next = { token, user: me };
             setAuth(next);
             // Don't change remember store on hydration; keep where token was found
             const store = local.get<string>(keys.TOKEN) ? local : session;
@@ -70,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       cancelled = true;
     };
-  }, []); // run once
+  }, [auth]); // Include auth in dependencies
 
   const persist = useCallback((next: AuthState) => {
     // Choose storage based on remember flag

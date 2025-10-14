@@ -1,21 +1,52 @@
-import React from 'react';
+/// <reference types="react" />
+/// <reference types="react-dom" />
+/// <reference types="node" />
 
-declare global {
-  namespace JSX {
-    // For React 18 with react-jsx runtime, ensure JSX.Element is available to TS
-    interface Element extends React.ReactElement<any, any> {}
-    interface ElementClass extends React.Component<any> {
-      render(): React.ReactNode;
-    }
-    interface ElementAttributesProperty {
-      props: {};
-    }
-    interface ElementChildrenAttribute {
-      children: {};
-    }
-    type LibraryManagedAttributes<C, P> = React.JSX.LibraryManagedAttributes<C, P>;
-    interface IntrinsicAttributes extends React.JSX.IntrinsicAttributes {}
-    interface IntrinsicClassAttributes<T> extends React.JSX.IntrinsicClassAttributes<T> {}
-    interface IntrinsicElements extends React.JSX.IntrinsicElements {}
+declare namespace NodeJS {
+  interface ProcessEnv {
+    readonly NODE_ENV: 'development' | 'production' | 'test';
+    readonly PUBLIC_URL: string;
+    readonly REACT_APP_API_BASE_URL: string;
   }
+}
+
+declare module '*.svg' {
+  import * as React from 'react';
+  const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default ReactComponent;
+}
+
+declare module '*.jpg' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.jpeg' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.png' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.gif' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.module.css' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+
+declare module '*.module.scss' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+
+declare module '*.module.sass' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
 }
