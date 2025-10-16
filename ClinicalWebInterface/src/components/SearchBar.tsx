@@ -58,9 +58,6 @@ export function SearchBar({
     <div className="cw-search cw-search--single" role="search" aria-label="Unified search">
       <div className="cw-search-row">
         <div className="cw-field cw-search-row__input">
-          <label className="cw-label" htmlFor="unified-search">
-            Search
-          </label>
           <input
             id="unified-search"
             className="cw-input"
