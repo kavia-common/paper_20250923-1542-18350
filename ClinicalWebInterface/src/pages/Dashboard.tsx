@@ -40,7 +40,8 @@ export default function Dashboard(): JSX.Element {
   return (
     <div className="cw-page">
       <Header />
-      <main className="cw-main container">
+      {/* Remove template container to allow full-bleed layout */}
+      <main className="cw-main">
         <section className="cw-actions">
           <button className="cw-btn cw-btn--primary" onClick={() => alert('Pre-admission action')}>
             Pre-admission
@@ -60,7 +61,7 @@ export default function Dashboard(): JSX.Element {
 
         <section className="cw-bedgrid">
           {noBeds ? (
-            <div style={{ gridColumn: '1 / -1', opacity: 0.8, fontStyle: 'italic', padding: '8px 4px' }}>
+            <div style={{ gridColumn: '1 / -1', opacity: 0.8, fontStyle: 'italic', padding: '6px 4px' }}>
               No results for beds.
             </div>
           ) : (
@@ -71,7 +72,7 @@ export default function Dashboard(): JSX.Element {
         <section className="cw-table-section">
           <h2 className="cw-sectiontitle">Registered Patients</h2>
           {noPatients ? (
-            <div style={{ opacity: 0.8, fontStyle: 'italic', padding: '8px 4px' }}>No results for patients.</div>
+            <div style={{ opacity: 0.8, fontStyle: 'italic', padding: '6px 4px' }}>No results for patients.</div>
           ) : (
             <RegisteredPatientsTable patients={filteredPatients} />
           )}

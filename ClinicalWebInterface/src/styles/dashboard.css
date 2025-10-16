@@ -1,8 +1,10 @@
 /* Container helper from template vibes */
+/* Disable generic container constraints to allow edge-to-edge layout */
 .container {
-  width: 95%;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 /* Header */
@@ -51,14 +53,18 @@
 }
 
 .cw-main {
-  padding: 16px 0 40px;
+  /* Remove horizontal padding for flush edges; keep compact vertical spacing */
+  padding: 12px 0;
+  /* Ensure content doesn't get obscured by fixed bottom toggle on mobile */
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 }
 
 /* Action buttons */
 .cw-actions {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
+  margin: 8px 0;
+  padding: 0 0; /* no side padding */
 }
 
 /* Generic buttons */
@@ -89,9 +95,11 @@
 .cw-search {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 12px;
+  border-radius: 0; /* flush to edges */
+  padding: 8px 10px;
+  margin: 0; /* remove outer margin to align to edges */
+  border-left-width: 0;
+  border-right-width: 0;
 }
 .cw-search__row {
   display: grid;
@@ -135,18 +143,21 @@
   /* Increase grid density so more cards fit per row on larger screens */
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
-  margin-bottom: 18px;
+  margin: 0; /* no outer margin so first/last align to edges */
+  border-left: 0;
+  border-right: 0;
 }
 .cw-bed {
   border: 1px solid var(--border-color);
-  border-radius: 10px;
+  border-radius: 0; /* let cards meet the edges via grid */
   background: var(--bg-secondary);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   /* Constrain size for compactness */
   min-height: 160px;
-  max-width: 420px;
+  /* Allow full width within grid to ensure edge-to-edge alignment */
+  max-width: none;
 }
 .cw-bed.is-empty {
   opacity: 0.85;
@@ -306,14 +317,17 @@
 
 /* Table */
 .cw-table-section .cw-sectiontitle {
-  margin: 8px 0 8px;
+  margin: 8px 10px 6px; /* slight inset for title readability; no outer gaps elsewhere */
   font-size: 16px;
 }
 .cw-tablewrap {
   overflow-x: auto;
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-radius: 0; /* flush edges */
   background: var(--bg-secondary);
+  margin: 0; /* no outer margins */
 }
 .cw-table {
   width: 100%;
