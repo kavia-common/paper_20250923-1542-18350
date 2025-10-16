@@ -1,42 +1,49 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Login from './pages/Login/Login';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import AppHeader from './components/Header/AppHeader';
-import Dashboard from './pages/Dashboard'; // CRA/TS resolves .tsx, but ensure file exists at src/pages/Dashboard.tsx
+
+/**
+ * After a successful login, users are redirected to "/" which is protected by ProtectedRoute.
+ * Adjust the path to your dashboard as needed (e.g., '/dashboard').
+ */
+// Simple placeholder dashboard component
+const Dashboard: React.FC = () => (
+  <div className="App">
+    <header className="App-header">
+      <p>Welcome to the Clinical Dashboard</p>
+    </header>
+  </div>
+);
 
 /**
  * PUBLIC_INTERFACE
  * App is the SPA shell with AuthProvider and Router.
- * - /dashboard is protected and renders the Clinical Dashboard.
- * - / redirects users to /login; after login, app navigates to /dashboard.
+ * Unauthenticated users are redirected to /login by ProtectedRoute.
  */
 function App(): React.ReactElement {
   return (
     <AuthProvider>
       <BrowserRouter>
         <AppHeader />
-        <div style={{ background: '#f3f4f6', minHeight: '100vh' }}>
-          <div style={{ padding: 12 }}>
-            <Routes>
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/" element={<Navigate to="/login" replace />} />
-              <Route path="*" element={<Navigate to="/login" replace />} />
-            </Routes>
-          </div>
-        </div>
+        <Routes>
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<Login />} />
+        </Routes>
       </BrowserRouter>
     </AuthProvider>
   );
