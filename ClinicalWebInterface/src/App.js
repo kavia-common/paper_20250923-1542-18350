@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import './styles/dashboard.css';
 import './styles/header.css';
 import Dashboard from './pages/Dashboard.tsx';
+import LiveChartPage from './pages/LiveChartPage.tsx';
+import NavBar from './components/NavBar.tsx';
 
 // PUBLIC_INTERFACE
 function App() {
@@ -33,7 +36,14 @@ function App() {
 
   return (
     <div className="App cw-app">
-      <Dashboard />
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/live-chart" element={<LiveChartPage />} />
+        </Routes>
+      </BrowserRouter>
+
       <button
         className="theme-toggle"
         onClick={toggleTheme}
