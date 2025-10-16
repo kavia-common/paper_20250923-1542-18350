@@ -98,6 +98,9 @@
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
 }
+.cw-search--single {
+  padding: 10px 12px;
+}
 .cw-field { display: flex; flex-direction: column; }
 .cw-label { font-size: 12px; margin-bottom: 6px; opacity: 0.8; }
 .cw-input, .cw-select {

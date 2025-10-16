@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Header from '../components/Header.tsx';
-import SearchBar, { SearchFilters } from '../components/SearchBar.tsx';
+import SearchBar from '../components/SearchBar.tsx';
 import BedCard from '../components/BedCard.tsx';
 import RegisteredPatientsTable from '../components/RegisteredPatientsTable.tsx';
 import { beds as bedsData, registeredPatients as patientsData } from '../data/mock.ts';
@@ -8,56 +8,34 @@ import { Bed, Patient } from '../types/patient.ts';
 
 // PUBLIC_INTERFACE
 export default function Dashboard(): JSX.Element {
-  const [filters, setFilters] = useState<SearchFilters>({
-    query: '',
-    bed: '',
-    status: '',
-    surgeon: '',
-    caseType: '',
-  });
+  // Single unified search term
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const onSearch = (f: SearchFilters) => {
-    setFilters(f);
-    // Placeholder: integrate backend search later
-    // For now, state update filters the mock lists below
+  // Case-insensitive match helper
+  const includesCI = (source: string | undefined | null, q: string) => {
+    if (!source) return false;
+    return source.toLowerCase().includes(q.toLowerCase());
   };
 
+  // Filter beds by bed name or patient name
   const filteredBeds: Bed[] = useMemo(() => {
-    const q = filters.query.toLowerCase();
-    return bedsData.filter(b => {
-      const matchBed = filters.bed ? b.name.toLowerCase().includes(filters.bed.toLowerCase()) : true;
-      const p = b.patient;
-      const matchStatus = filters.status ? (p?.status === filters.status) : true;
-      const matchSurgeon = filters.surgeon ? (p?.surgeon?.toLowerCase().includes(filters.surgeon.toLowerCase()) ?? false) : true;
-      const matchCase = filters.caseType ? (p?.caseType === filters.caseType) : true;
-      const matchQuery = q
-        ? [
-            p?.name?.toLowerCase().includes(q),
-            p?.hn?.toLowerCase().includes(q),
-            (p?.an || '').toLowerCase().includes(q),
-            b.name.toLowerCase().includes(q),
-          ].some(Boolean)
-        : true;
-      return matchBed && matchStatus && matchSurgeon && matchCase && matchQuery;
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return bedsData;
+    return bedsData.filter((b) => {
+      const patientName = b.patient?.name || '';
+      return includesCI(b.name, q) || includesCI(patientName, q);
     });
-  }, [filters]);
+  }, [searchTerm]);
 
+  // Filter patients by patient name (primary for table)
   const filteredPatients: Patient[] = useMemo(() => {
-    const q = filters.query.toLowerCase();
-    return patientsData.filter(p => {
-      const matchStatus = filters.status ? (p.status === filters.status) : true;
-      const matchSurgeon = filters.surgeon ? (p.surgeon?.toLowerCase().includes(filters.surgeon.toLowerCase()) ?? false) : true;
-      const matchCase = filters.caseType ? (p.caseType === filters.caseType) : true;
-      const matchQuery = q
-        ? [
-            p.name.toLowerCase().includes(q),
-            p.hn.toLowerCase().includes(q),
-            (p.an || '').toLowerCase().includes(q),
-          ].some(Boolean)
-        : true;
-      return matchStatus && matchSurgeon && matchCase && matchQuery;
-    });
-  }, [filters]);
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return patientsData;
+    return patientsData.filter((p) => includesCI(p.name, q));
+  }, [searchTerm]);
+
+  const noBeds = filteredBeds.length === 0;
+  const noPatients = filteredPatients.length === 0;
 
   return (
     <div className="cw-page">
@@ -73,18 +51,30 @@ export default function Dashboard(): JSX.Element {
         </section>
 
         <section className="cw-searchwrap">
-          <SearchBar onSearch={onSearch} />
+          <SearchBar
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="Search by patient or bed name…"
+          />
         </section>
 
         <section className="cw-bedgrid">
-          {filteredBeds.map(bed => (
-            <BedCard key={bed.id} bed={bed} />
-          ))}
+          {noBeds ? (
+            <div style={{ gridColumn: '1 / -1', opacity: 0.8, fontStyle: 'italic', padding: '8px 4px' }}>
+              No results for beds.
+            </div>
+          ) : (
+            filteredBeds.map((bed) => <BedCard key={bed.id} bed={bed} />)
+          )}
         </section>
 
         <section className="cw-table-section">
           <h2 className="cw-sectiontitle">Registered Patients</h2>
-          <RegisteredPatientsTable patients={filteredPatients} />
+          {noPatients ? (
+            <div style={{ opacity: 0.8, fontStyle: 'italic', padding: '8px 4px' }}>No results for patients.</div>
+          ) : (
+            <RegisteredPatientsTable patients={filteredPatients} />
+          )}
         </section>
       </main>
     </div>

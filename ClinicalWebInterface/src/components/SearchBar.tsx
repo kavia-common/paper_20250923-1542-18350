@@ -1,100 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-export interface SearchFilters {
-  query: string; // name / HN / AN
-  bed: string;
-  status: string;
-  surgeon: string;
-  caseType: string;
-}
+type Props = {
+  /** Current value shown in the input (optional, for controlled use) */
+  value?: string;
+  /** Called with the debounced value after ~300ms of inactivity */
+  onChange: (value: string) => void;
+  /** Input placeholder text */
+  placeholder?: string;
+  /** Debounce delay in ms (defaults to 300) */
+  delayMs?: number;
+};
 
 // PUBLIC_INTERFACE
 export function SearchBar({
-  onSearch,
-}: {
-  /** Callback when search is triggered with current filters */
-  onSearch: (filters: SearchFilters) => void;
-}): JSX.Element {
-  const [filters, setFilters] = useState<SearchFilters>({
-    query: '',
-    bed: '',
-    status: '',
-    surgeon: '',
-    caseType: '',
-  });
+  value,
+  onChange,
+  placeholder = 'Search by patient or bed name…',
+  delayMs = 300,
+}: Props): JSX.Element {
+  // Keep an internal input state to enable debouncing
+  const [innerValue, setInnerValue] = useState<string>(value ?? '');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
-  };
+  // Keep inner state in sync if parent changes provided value
+  useEffect(() => {
+    if (value !== undefined && value !== innerValue) {
+      setInnerValue(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch(filters);
-  };
+  // Debounce handler
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      onChange(innerValue);
+    }, delayMs);
+    return () => clearTimeout(handle);
+  }, [innerValue, delayMs, onChange]);
+
+  const placeholderText = useMemo(
+    () => placeholder || 'Search by patient or bed name…',
+    [placeholder]
+  );
 
   return (
-    <form className="cw-search" onSubmit={handleSearch}>
-      <div className="cw-search__row">
-        <div className="cw-field">
-          <label className="cw-label" htmlFor="query">Name / HN / AN</label>
-          <input
-            id="query"
-            name="query"
-            className="cw-input"
-            value={filters.query}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="cw-field">
-          <label className="cw-label" htmlFor="bed">Bed</label>
-          <input
-            id="bed"
-            name="bed"
-            className="cw-input"
-            value={filters.bed}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="cw-field">
-          <label className="cw-label" htmlFor="status">Status</label>
-          <select id="status" name="status" className="cw-select" value={filters.status} onChange={handleChange}>
-            <option value="">Any</option>
-            <option>Admitted</option>
-            <option>Pre-admission</option>
-            <option>Discharged</option>
-            <option>In-OR</option>
-            <option>Post-Op</option>
-          </select>
-        </div>
-
-        <div className="cw-field">
-          <label className="cw-label" htmlFor="surgeon">Surgeon</label>
-          <input
-            id="surgeon"
-            name="surgeon"
-            className="cw-input"
-            value={filters.surgeon}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="cw-field">
-          <label className="cw-label" htmlFor="caseType">Case Type</label>
-          <select id="caseType" name="caseType" className="cw-select" value={filters.caseType} onChange={handleChange}>
-            <option value="">Any</option>
-            <option>Elective</option>
-            <option>Emergency</option>
-          </select>
-        </div>
-
-        <div className="cw-field cw-field--actions">
-          <button className="cw-btn" type="submit">Search</button>
-        </div>
+    <div className="cw-search cw-search--single">
+      <div className="cw-field" style={{ gridColumn: '1 / -1' }}>
+        <label className="cw-label" htmlFor="unified-search">
+          Search
+        </label>
+        <input
+          id="unified-search"
+          className="cw-input"
+          type="text"
+          inputMode="search"
+          value={innerValue}
+          onChange={(e) => setInnerValue(e.target.value)}
+          placeholder={placeholderText}
+          aria-label="Search by patient or bed name"
+        />
       </div>
-    </form>
+    </div>
   );
 }
 
