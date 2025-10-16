@@ -6,24 +6,18 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import Login from './pages/Login/Login';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import AppHeader from './components/Header/AppHeader';
-
-/**
- * After a successful login, users are redirected to "/" which is protected by ProtectedRoute.
- * Adjust the path to your dashboard as needed (e.g., '/dashboard').
- */
-// Simple placeholder dashboard component
-const Dashboard: React.FC = () => (
-  <div className="App">
-    <header className="App-header">
-      <p>Welcome to the Clinical Dashboard</p>
-    </header>
-  </div>
-);
+import Dashboard from './pages/Dashboard';
+import LiveVitals from './pages/LiveVitals';
 
 /**
  * PUBLIC_INTERFACE
  * App is the SPA shell with AuthProvider and Router.
  * Unauthenticated users are redirected to /login by ProtectedRoute.
+ *
+ * Routes:
+ * - /dashboard (protected)
+ * - /live (protected, simulated chart)
+ * - /login, /forgot-password (public)
  */
 function App(): React.ReactElement {
   return (
@@ -36,6 +30,14 @@ function App(): React.ReactElement {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/live"
+            element={
+              <ProtectedRoute>
+                <LiveVitals />
               </ProtectedRoute>
             }
           />

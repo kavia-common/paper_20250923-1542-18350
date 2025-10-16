@@ -21,6 +21,12 @@ const AppHeader: React.FC = () => {
         <nav aria-label="Primary">
           {isAuthenticated ? (
             <div className="user-controls">
+              <Link to="/dashboard" className="btn-secondary" aria-label="Go to Dashboard" style={{ textDecoration: 'none', padding: '.5rem .75rem', borderRadius: 6, background: '#e5e7eb', color: '#111827', fontWeight: 600 }}>
+                Dashboard
+              </Link>
+              <Link to="/live" className="btn-secondary" aria-label="Go to Live Vitals" style={{ textDecoration: 'none', padding: '.5rem .75rem', borderRadius: 6, background: '#e5e7eb', color: '#111827', fontWeight: 600 }}>
+                Live
+              </Link>
               <span className="user-name" aria-live="polite">Hello, {user?.name || 'User'}</span>
               {/* Logout triggers backend best-effort POST /auth/logout then clears client session */}
               <button className="btn-logout" onClick={() => logout()} aria-label="Logout">

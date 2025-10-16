@@ -41,3 +41,17 @@
 .btn-logout:hover, .btn-login:hover {
   filter: brightness(0.95);
 }
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+  border: none;
+  border-radius: 6px;
+  padding: .5rem .75rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-secondary:hover {
+  filter: brightness(0.95);
+}
