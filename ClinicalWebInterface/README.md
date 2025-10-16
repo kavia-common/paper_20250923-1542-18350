@@ -17,7 +17,19 @@ Environment:
   - Container networking: http://BackendServices:3000
   - The app calls endpoints relative to this base, e.g., ${REACT_APP_API_BASE_URL}/api/auth/login
 
+Engines and Preview:
+- Recommended Node LTS: 18.x (pinned in .nvmrc for CI/preview stability)
+- Package manager: Yarn (yarn.lock present). In preview, installs should use `yarn install`.
+
 In the project directory, you can run:
+
+Install dependencies (respect yarn.lock):
+- yarn install  (preferred)
+- or npm ci     (if using npm and package-lock is generated)
+
+Preview/CI note:
+- Ensure dependencies are installed before running build/start. The build script expects react-scripts to be present.
+- Node 18.x is recommended (see .nvmrc).
 
 ### `npm start`
 
