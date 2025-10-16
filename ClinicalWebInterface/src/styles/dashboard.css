@@ -300,6 +300,19 @@
   position: sticky;
   top: 0;
   background: var(--bg-secondary);
+  font-weight: 700; /* Bold header text */
+}
+
+/* Ensure header and generic table th semantics are bold by default */
+.cw-table th {
+  font-weight: 700;
+}
+
+/* Patient name cell: bold and left-aligned */
+.cw-table td.patient-name {
+  font-weight: 700;
+  text-align: left;
+  color: var(--text-primary);
 }
 
 /* Responsive */

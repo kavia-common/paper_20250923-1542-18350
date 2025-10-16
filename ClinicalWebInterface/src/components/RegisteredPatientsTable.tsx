@@ -13,24 +13,24 @@ export function RegisteredPatientsTable({
       <table className="cw-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>HN</th>
-            <th>AN</th>
-            <th>Gender</th>
-            <th>Age</th>
-            <th>Status</th>
-            <th>Surgeon</th>
-            <th>Case Type</th>
-            <th>Procedure</th>
-            <th>Diagnosis</th>
-            <th>Allergies</th>
-            <th>Precautions</th>
+            <th scope="col">Name</th>
+            <th scope="col">HN</th>
+            <th scope="col">AN</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Age</th>
+            <th scope="col">Status</th>
+            <th scope="col">Surgeon</th>
+            <th scope="col">Case Type</th>
+            <th scope="col">Procedure</th>
+            <th scope="col">Diagnosis</th>
+            <th scope="col">Allergies</th>
+            <th scope="col">Precautions</th>
           </tr>
         </thead>
         <tbody>
-          {patients.map(p => (
+          {patients.map((p) => (
             <tr key={p.hn}>
-              <td>{p.name}</td>
+              <td className="patient-name">{p.name}</td>
               <td>{p.hn}</td>
               <td>{p.an || '-'}</td>
               <td>{p.gender}</td>
@@ -40,8 +40,8 @@ export function RegisteredPatientsTable({
               <td>{p.caseType || '-'}</td>
               <td>{p.procedure || '-'}</td>
               <td>{p.diagnosis || '-'}</td>
-              <td>{(p.allergies && p.allergies.length) ? p.allergies.join(', ') : '-'}</td>
-              <td>{(p.precautions && p.precautions.length) ? p.precautions.join(', ') : '-'}</td>
+              <td>{p.allergies && p.allergies.length ? p.allergies.join(', ') : '-'}</td>
+              <td>{p.precautions && p.precautions.length ? p.precautions.join(', ') : '-'}</td>
             </tr>
           ))}
         </tbody>
