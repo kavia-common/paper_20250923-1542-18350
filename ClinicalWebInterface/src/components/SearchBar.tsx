@@ -42,7 +42,6 @@ export function SearchBar({
             id="query"
             name="query"
             className="cw-input"
-            placeholder="e.g., John / HN001234 / AN567890"
             value={filters.query}
             onChange={handleChange}
           />
@@ -54,7 +53,6 @@ export function SearchBar({
             id="bed"
             name="bed"
             className="cw-input"
-            placeholder="Any bed"
             value={filters.bed}
             onChange={handleChange}
           />
@@ -78,7 +76,6 @@ export function SearchBar({
             id="surgeon"
             name="surgeon"
             className="cw-input"
-            placeholder="Surgeon name"
             value={filters.surgeon}
             onChange={handleChange}
           />
