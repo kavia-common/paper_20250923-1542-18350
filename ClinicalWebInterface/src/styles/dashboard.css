@@ -7,6 +7,17 @@
   padding: 0;
 }
 
+/* Subtle border color variables to ensure visibility in both themes */
+:root {
+  --border: var(--border-color, rgba(0,0,0,0.12)); /* light default */
+  --border-strong: rgba(0,0,0,0.14);
+}
+[data-theme="dark"] {
+  /* Slightly lighter border in dark mode for contrast on dark backgrounds */
+  --border: var(--border-color, rgba(255,255,255,0.14));
+  --border-strong: rgba(255,255,255,0.18);
+}
+
 /* Header */
 .cw-header {
   display: flex;
@@ -148,7 +159,8 @@
   border-right: 0;
 }
 .cw-bed {
-  border: 1px solid var(--border-color);
+  /* Subtle, theme-aware border */
+  border: 1px solid var(--border);
   border-radius: 0; /* let cards meet the edges via grid */
   background: var(--bg-secondary);
   overflow: hidden;
@@ -178,14 +190,18 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px; /* reduced padding */
-  border-bottom: 1px solid var(--border-color);
+  /* Provide a thin separator; in blue header this is overridden to semi-transparent white */
+  border-bottom: 1px solid var(--border);
 }
 
 /* Uniform card header treatment using brand blue */
 .card-header {
   background: var(--brand-blue, #1976d2);
   color: var(--brand-blue-contrast, #ffffff);
+  /* Ensure a visible but subtle separator on blue headers */
   border-bottom-color: rgba(255,255,255,0.18);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
 
 /* Ensure inner text/icons in card headers are readable */
@@ -265,6 +281,7 @@
 .cw-bed:focus {
   outline: 2px solid var(--text-secondary);
   outline-offset: 2px;
+  /* No box-shadow to avoid heavy visual noise */
 }
 
 /* Muted inline spans (e.g., gender/age, AN) */
@@ -322,7 +339,8 @@
 }
 .cw-tablewrap {
   overflow-x: auto;
-  border: 1px solid var(--border-color);
+  /* Thin, theme-aware border; keep sides open for full-bleed feel */
+  border: 1px solid var(--border);
   border-left-width: 0;
   border-right-width: 0;
   border-radius: 0; /* flush edges */
@@ -338,7 +356,8 @@
 .cw-table th, .cw-table td {
   text-align: left;
   padding: 8px 10px;
-  border-bottom: 1px solid var(--border-color);
+  /* Thin, consistent separators for rows and columns where applicable */
+  border-bottom: 1px solid var(--border);
   white-space: nowrap;
 }
 .cw-table thead th {
