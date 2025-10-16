@@ -1,0 +1,219 @@
+/* Container helper from template vibes */
+.container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.cw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cw-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cw-header__logo {
+  font-size: 22px;
+}
+.cw-header__title {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+.cw-header__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-primary);
+  opacity: 0.8;
+}
+.cw-header__userbadge {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+/* Page layout */
+.cw-page {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+.cw-main {
+  padding: 16px 0 40px;
+}
+
+/* Action buttons */
+.cw-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+/* Generic buttons */
+.cw-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.05s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  background: #e9ecef;
+  color: #000;
+}
+.cw-btn:hover { transform: translateY(-1px); }
+.cw-btn:active { transform: translateY(0); }
+
+.cw-btn--primary {
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+.cw-btn--secondary {
+  background: #e9ecef;
+  color: #000;
+}
+
+/* Search */
+.cw-search {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+.cw-search__row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+.cw-field { display: flex; flex-direction: column; }
+.cw-label { font-size: 12px; margin-bottom: 6px; opacity: 0.8; }
+.cw-input, .cw-select {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.cw-field--actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
+
+/* Bed grid */
+.cw-bedgrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.cw-bed {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.cw-bed.is-empty {
+  opacity: 0.8;
+}
+.cw-bed__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+.cw-bed__name {
+  font-weight: 700;
+}
+.cw-bed__icons { display: flex; gap: 6px; }
+.cw-icon { font-size: 16px; }
+
+.cw-bed__body {
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+  font-size: 14px;
+}
+.cw-row { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.cw-bed__empty {
+  padding: 16px 12px;
+  font-style: italic;
+  color: #666;
+}
+
+.cw-bed__footer {
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid var(--border-color);
+  background: rgba(0,0,0,0.02);
+}
+
+/* Table */
+.cw-table-section .cw-sectiontitle {
+  margin: 8px 0 8px;
+  font-size: 16px;
+}
+.cw-tablewrap {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+}
+.cw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 800px;
+}
+.cw-table th, .cw-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+.cw-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bg-secondary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .cw-bedgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cw-search__row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .cw-bedgrid {
+    grid-template-columns: 1fr;
+  }
+  .cw-search__row {
+    grid-template-columns: 1fr;
+  }
+  .cw-bed__body {
+    grid-template-columns: 1fr;
+  }
+}
