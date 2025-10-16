@@ -11,12 +11,18 @@ function Icon({ label, symbol }: { label: string; symbol: string }) {
 
 // PUBLIC_INTERFACE
 export function BedCard({ bed }: { bed: Bed }): JSX.Element {
+  /**
+   * Vertical content layout:
+   * - Header: Bed name + status icons
+   * - Body: stacked patient details (name, identifiers, status, clinical summary)
+   * - No inline action buttons (Pre-admission / Register Patient removed)
+   */
   const p = bed.patient;
   const hasAllergy = !!p?.allergies && p.allergies.length > 0;
   const hasPrecaution = !!p?.precautions && p.precautions.length > 0;
 
   return (
-    <div className={`cw-bed ${bed.occupied ? 'is-occupied' : 'is-empty'}`}>
+    <div className={`cw-bed ${bed.occupied ? 'is-occupied' : 'is-empty'}`} role="button" tabIndex={0}>
       <div className="cw-bed__header">
         <span className="cw-bed__name">{bed.name}</span>
         <div className="cw-bed__icons">
@@ -26,27 +32,52 @@ export function BedCard({ bed }: { bed: Bed }): JSX.Element {
           {bed.dischargePlanned && <Icon label="Discharge planned" symbol="🏥" />}
         </div>
       </div>
+
       {bed.occupied && p ? (
-        <div className="cw-bed__body">
-          <div className="cw-row"><strong>Patient:</strong> {p.name} ({p.gender}, {p.age})</div>
-          <div className="cw-row"><strong>HN/AN:</strong> {p.hn} {p.an ? ` / ${p.an}` : ''}</div>
-          <div className="cw-row"><strong>Status:</strong> {p.status}</div>
-          <div className="cw-row"><strong>Case:</strong> {p.caseType || '-'}</div>
-          <div className="cw-row"><strong>Surgeon:</strong> {p.surgeon || '-'}</div>
-          <div className="cw-row"><strong>Procedure:</strong> {p.procedure || '-'}</div>
-          <div className="cw-row"><strong>Diagnosis:</strong> {p.diagnosis || '-'}</div>
+        <div className="cw-bed__body cw-bed__body--vertical">
+          <div className="cw-stack">
+            <div className="cw-line">
+              <span className="cw-labeltext">Patient</span>
+              <span className="cw-valuetext">
+                {p.name} <span className="cw-mute">({p.gender}, {p.age})</span>
+              </span>
+            </div>
+
+            <div className="cw-line">
+              <span className="cw-labeltext">Identifiers</span>
+              <span className="cw-valuetext">
+                HN: {p.hn} {p.an ? <span className="cw-mute">/ AN: {p.an}</span> : null}
+              </span>
+            </div>
+
+            <div className="cw-line">
+              <span className="cw-labeltext">Status</span>
+              <span className="cw-valuetext">{p.status}</span>
+            </div>
+
+            <div className="cw-line">
+              <span className="cw-labeltext">Summary</span>
+              <span className="cw-valuetext">
+                {(p.caseType || '-')}{p.surgeon ? ` • ${p.surgeon}` : ''}{p.procedure ? ` • ${p.procedure}` : ''}{p.diagnosis ? ` • ${p.diagnosis}` : ''}
+              </span>
+            </div>
+
+            {(p.allergies && p.allergies.length > 0) || (p.precautions && p.precautions.length > 0) ? (
+              <div className="cw-line">
+                <span className="cw-labeltext">Notes</span>
+                <span className="cw-valuetext">
+                  {p.allergies && p.allergies.length ? `Allergies: ${p.allergies.join(', ')}` : ''}
+                  {p.allergies && p.allergies.length && p.precautions && p.precautions.length ? ' • ' : ''}
+                  {p.precautions && p.precautions.length ? `Precautions: ${p.precautions.join(', ')}` : ''}
+                </span>
+              </div>
+            ) : null}
+          </div>
         </div>
       ) : (
         <div className="cw-bed__empty">Empty bed</div>
       )}
-      <div className="cw-bed__footer">
-        <button className="cw-btn cw-btn--secondary" onClick={() => alert(`Pre-admission for ${bed.name}`)}>
-          Pre-admission
-        </button>
-        <button className="cw-btn cw-btn--primary" onClick={() => alert(`Register patient to ${bed.name}`)}>
-          Register Patient
-        </button>
-      </div>
+      {/* Footer removed per requirement: no Pre-admission/Register Patient buttons on the card */}
     </div>
   );
 }
