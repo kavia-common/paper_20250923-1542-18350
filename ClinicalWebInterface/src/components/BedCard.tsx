@@ -22,7 +22,12 @@ export function BedCard({ bed }: { bed: Bed }): JSX.Element {
   const hasPrecaution = !!p?.precautions && p.precautions.length > 0;
 
   return (
-    <div className={`cw-bed ${bed.occupied ? 'is-occupied' : 'is-empty'}`} role="button" tabIndex={0}>
+    <div
+      className={`cw-bed ${bed.occupied ? 'is-occupied' : 'is-empty'}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`${bed.name}${bed.occupied && p ? `, occupied by ${p.name}` : ', empty'}`}
+    >
       <div className="cw-bed__header">
         <span className="cw-bed__name">{bed.name}</span>
         <div className="cw-bed__icons">

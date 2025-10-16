@@ -57,15 +57,15 @@
 /* Action buttons */
 .cw-actions {
   display: flex;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 /* Generic buttons */
 .cw-btn {
   border: none;
   border-radius: 8px;
-  padding: 10px 14px;
+  padding: 8px 12px;
   cursor: pointer;
   font-weight: 600;
   transition: transform 0.05s ease, opacity 0.2s ease, box-shadow 0.2s ease;
@@ -89,22 +89,22 @@
 .cw-search {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 16px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 12px;
 }
 .cw-search__row {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 .cw-search--single {
-  padding: 10px 12px;
+  padding: 8px 10px;
 }
 .cw-search-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 10px;
+  gap: 8px;
   align-items: end;
 }
 .cw-search-row__input { min-width: 0; }
@@ -120,7 +120,8 @@
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 8px 10px;
+  font-size: 0.95rem;
 }
 .cw-field--actions {
   display: flex;
@@ -131,60 +132,66 @@
 /* Bed grid */
 .cw-bedgrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
+  /* Increase grid density so more cards fit per row on larger screens */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
 }
 .cw-bed {
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--bg-secondary);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* Constrain size for compactness */
+  min-height: 160px;
+  max-width: 420px;
 }
 .cw-bed.is-empty {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 .cw-bed__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 14px;
+  padding: 8px 10px; /* reduced padding */
   border-bottom: 1px solid var(--border-color);
 }
 .cw-bed__name {
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px; /* slightly smaller */
+  line-height: 1.2;
 }
-.cw-bed__icons { display: flex; gap: 6px; }
-.cw-icon { font-size: 16px; }
+.cw-bed__icons { display: flex; gap: 4px; }
+.cw-icon { font-size: 14px; }
 
 /* Vertical body for cards */
 .cw-bed__body {
-  padding: 12px 14px;
+  padding: 8px 10px; /* reduced padding */
 }
 
 /* Stack of rows within card body */
 .cw-bed__body--vertical .cw-stack {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px; /* tighter vertical gap */
 }
 
 /* New key-value row utilities for consistent label/value presentation */
 .kv-row {
   display: flex;
   align-items: flex-start;
-  gap: 8px; /* space between label colon and value */
+  gap: 6px; /* tighter space between key and value */
   min-width: 0;
-  line-height: 1.35;
+  line-height: 1.28; /* tighter line height ~1.25-1.3 */
   flex-wrap: wrap; /* allow wrapping on small screens */
+  margin: 0; /* remove any default spacing */
 }
 
 /* Left indentation for all content rows within cards */
 .kv-row--indent {
-  padding-left: 8px; /* subtle indent */
+  padding-left: 6px; /* subtle indent */
 }
 
 /* Label (key) and value styles */
@@ -193,6 +200,7 @@
   color: var(--text-primary);
   white-space: nowrap; /* keep label intact */
   flex: 0 0 auto;
+  font-size: 0.95rem; /* ~15.2px default -> 0.95rem for compact */
 }
 
 /* Add a colon consistently after labels */
@@ -208,6 +216,18 @@
   min-width: 0;
   flex: 1 1 auto;
   word-break: break-word; /* handle long words/identifiers */
+  font-size: 0.9rem; /* slightly smaller for values */
+}
+
+/* Improve focus visibility for keyboard users without excess outline size */
+.cw-bed:focus {
+  outline: 2px solid var(--text-secondary);
+  outline-offset: 2px;
+}
+
+/* Muted inline spans (e.g., gender/age, AN) */
+.cw-mute {
+  opacity: 0.75;
 }
 
 /* Muted inline spans (e.g., gender/age, AN) */
@@ -267,12 +287,12 @@
 .cw-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 13px;
   min-width: 800px;
 }
 .cw-table th, .cw-table td {
   text-align: left;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-bottom: 1px solid var(--border-color);
   white-space: nowrap;
 }
@@ -283,21 +303,30 @@
 }
 
 /* Responsive */
+/* Wider screens show 4 columns (set above). For mid-sized screens use 3, then 2, then 1. */
+@media (max-width: 1280px) {
+  .cw-bedgrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
 @media (max-width: 1024px) {
   .cw-bedgrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
   .cw-search__row {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 @media (max-width: 640px) {
   .cw-bedgrid {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
   .cw-search__row {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
   .cw-bed__body {
     grid-template-columns: 1fr;
