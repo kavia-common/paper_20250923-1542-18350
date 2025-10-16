@@ -64,9 +64,10 @@
 }
 
 .cw-main {
-  /* Remove horizontal padding for flush edges; keep compact vertical spacing */
-  padding: 12px 0;
-  /* Ensure content doesn't get obscured by fixed bottom toggle on mobile */
+  /* Add small inner padding while keeping compact layout */
+  --_gutter: var(--gutter-sm, 10px);
+  padding: 12px var(--_gutter);
+  /* Ensure content doesn't get obscured by fixed bottom toggle and safe areas */
   padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 }
 
@@ -75,7 +76,7 @@
   display: flex;
   gap: 8px;
   margin: 8px 0;
-  padding: 0 0; /* no side padding */
+  padding: 0; /* reset */
 }
 
 /* Generic buttons */
@@ -106,11 +107,9 @@
 .cw-search {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 0; /* flush to edges */
+  border-radius: 8px;
   padding: 8px 10px;
-  margin: 0; /* remove outer margin to align to edges */
-  border-left-width: 0;
-  border-right-width: 0;
+  margin: 0;
 }
 .cw-search__row {
   display: grid;
@@ -119,6 +118,14 @@
 }
 .cw-search--single {
   padding: 8px 10px;
+}
+
+/* Section wrappers adopt the same horizontal gutters */
+.cw-actions,
+.cw-searchwrap,
+.cw-table-section {
+  padding-left: var(--_gutter, var(--gutter-sm, 10px));
+  padding-right: var(--_gutter, var(--gutter-sm, 10px));
 }
 .cw-search-row {
   display: grid;
@@ -154,9 +161,9 @@
   /* Increase grid density so more cards fit per row on larger screens */
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
-  margin: 0; /* no outer margin so first/last align to edges */
-  border-left: 0;
-  border-right: 0;
+  margin: 0;
+  padding-left: var(--_gutter, var(--gutter-sm, 10px));
+  padding-right: var(--_gutter, var(--gutter-sm, 10px));
 }
 .cw-bed {
   /* Subtle, theme-aware border */
@@ -339,13 +346,11 @@
 }
 .cw-tablewrap {
   overflow-x: auto;
-  /* Thin, theme-aware border; keep sides open for full-bleed feel */
+  /* Thin, theme-aware border */
   border: 1px solid var(--border);
-  border-left-width: 0;
-  border-right-width: 0;
-  border-radius: 0; /* flush edges */
+  border-radius: 8px;
   background: var(--bg-secondary);
-  margin: 0; /* no outer margins */
+  margin: 0;
 }
 .cw-table {
   width: 100%;
@@ -399,6 +404,13 @@
   .cw-bedgrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
+  }
+}
+
+/* Slightly larger gutters on wider screens for breathing room */
+@media (min-width: 1024px) {
+  .cw-main {
+    --_gutter: var(--gutter-lg, 16px);
   }
 }
 @media (max-width: 1024px) {

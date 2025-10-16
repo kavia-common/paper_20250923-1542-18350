@@ -8,6 +8,10 @@
   --border-color: #e9ecef;
   --button-bg: #007bff;
   --button-text: #ffffff;
+
+  /* Global gutters for inner padding (content areas only) */
+  --gutter-sm: 10px; /* default small gutter (8–12px) */
+  --gutter-lg: 16px; /* slightly larger for wider screens */
 }
 
 [data-theme="dark"] {
@@ -27,8 +31,7 @@
   color: var(--text-primary);
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
-  /* Tiny breathing room to prevent overlap with fixed toggle on very small screens */
-  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  /* Bottom spacing for overlap is handled in content containers */
 }
 
 .App-logo {
@@ -75,6 +78,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  /* Keep away from content gutters slightly */
+  margin-bottom: 2px;
 }
 
 .theme-toggle:hover {
