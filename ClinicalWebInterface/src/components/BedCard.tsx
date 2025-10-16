@@ -37,33 +37,56 @@ export function BedCard({ bed }: { bed: Bed }): JSX.Element {
         <div className="cw-bed__body cw-bed__body--vertical">
           <div className="cw-stack">
             <div className="kv-row kv-row--indent">
-              <span className="kv-label">Patient</span>
-              <span className="kv-value">
-                {p.name} <span className="cw-mute">({p.gender}, {p.age})</span>
-              </span>
+              <span className="kv-label">Patient Name</span>
+              <span className="kv-value">{p.name ?? 'NA'}</span>
             </div>
 
             <div className="kv-row kv-row--indent">
-              <span className="kv-label">Identifiers</span>
-              <span className="kv-value">
-                HN {p.hn}{' '}
-                {p.an ? <span className="cw-mute">• AN {p.an}</span> : null}
-              </span>
+              <span className="kv-label">HN</span>
+              <span className="kv-value">{p.hn ?? 'NA'}</span>
             </div>
 
             <div className="kv-row kv-row--indent">
-              <span className="kv-label">Status</span>
-              <span className="kv-value">{p.status}</span>
+              <span className="kv-label">AN</span>
+              <span className="kv-value">{p.an ?? 'NA'}</span>
             </div>
 
             <div className="kv-row kv-row--indent">
-              <span className="kv-label">Summary</span>
-              <span className="kv-value">
-                {(p.caseType || '-')}{p.surgeon ? ` • ${p.surgeon}` : ''}{p.procedure ? ` • ${p.procedure}` : ''}{p.diagnosis ? ` • ${p.diagnosis}` : ''}
-              </span>
+              <span className="kv-label">Gender</span>
+              <span className="kv-value">{p.gender ?? 'NA'}</span>
             </div>
 
-            {(p.allergies && p.allergies.length > 0) || (p.precautions && p.precautions.length > 0) ? (
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Age</span>
+              <span className="kv-value">{(p.age ?? 'NA')}</span>
+            </div>
+
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Patient Status</span>
+              <span className="kv-value">{p.status ?? 'NA'}</span>
+            </div>
+
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Case Type</span>
+              <span className="kv-value">{p.caseType ?? 'NA'}</span>
+            </div>
+
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Surgeon</span>
+              <span className="kv-value">{p.surgeon ?? 'NA'}</span>
+            </div>
+
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Procedure</span>
+              <span className="kv-value">{p.procedure ?? 'Null'}</span>
+            </div>
+
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Diagnosis</span>
+              <span className="kv-value">{p.diagnosis ?? 'NA'}</span>
+            </div>
+
+            {(p?.allergies && p.allergies.length > 0) || (p?.precautions && p.precautions.length > 0) ? (
               <div className="kv-row kv-row--indent">
                 <span className="kv-label">Notes</span>
                 <span className="kv-value">
