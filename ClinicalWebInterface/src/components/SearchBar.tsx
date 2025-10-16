@@ -42,22 +42,47 @@ export function SearchBar({
     [placeholder]
   );
 
+  // Trigger an immediate search using current innerValue
+  const runSearch = () => {
+    onChange(innerValue);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      runSearch();
+    }
+  };
+
   return (
-    <div className="cw-search cw-search--single">
-      <div className="cw-field" style={{ gridColumn: '1 / -1' }}>
-        <label className="cw-label" htmlFor="unified-search">
-          Search
-        </label>
-        <input
-          id="unified-search"
-          className="cw-input"
-          type="text"
-          inputMode="search"
-          value={innerValue}
-          onChange={(e) => setInnerValue(e.target.value)}
-          placeholder={placeholderText}
-          aria-label="Search by patient or bed name"
-        />
+    <div className="cw-search cw-search--single" role="search" aria-label="Unified search">
+      <div className="cw-search-row">
+        <div className="cw-field cw-search-row__input">
+          <label className="cw-label" htmlFor="unified-search">
+            Search
+          </label>
+          <input
+            id="unified-search"
+            className="cw-input"
+            type="text"
+            inputMode="search"
+            value={innerValue}
+            onChange={(e) => setInnerValue(e.target.value)}
+            onKeyDown={onKeyDown}
+            placeholder={placeholderText}
+            aria-label="Search by patient or bed name"
+          />
+        </div>
+        <div className="cw-field cw-field--actions cw-search-row__button" aria-hidden="false">
+          <button
+            type="button"
+            className="cw-btn cw-btn--primary"
+            onClick={runSearch}
+            aria-label="Run search"
+          >
+            Search
+          </button>
+        </div>
       </div>
     </div>
   );

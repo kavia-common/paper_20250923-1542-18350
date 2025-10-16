@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import './styles/dashboard.css';
+import './styles/header.css';
 import Dashboard from './pages/Dashboard.tsx';
 
 // PUBLIC_INTERFACE

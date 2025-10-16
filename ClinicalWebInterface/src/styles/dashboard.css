@@ -101,6 +101,18 @@
 .cw-search--single {
   padding: 10px 12px;
 }
+.cw-search-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+.cw-search-row__input { min-width: 0; }
+.cw-search-row__button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
 .cw-field { display: flex; flex-direction: column; }
 .cw-label { font-size: 12px; margin-bottom: 6px; opacity: 0.8; }
 .cw-input, .cw-select {

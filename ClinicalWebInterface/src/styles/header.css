@@ -1,0 +1,112 @@
+:root {
+  --header-height: 56px;
+}
+
+.cw-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cw-top-header__left,
+.cw-top-header__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cw-top-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cw-top-header__title {
+  font-size: 16px;
+  line-height: 1;
+  margin: 0;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.cw-top-header__menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  cursor: pointer;
+}
+.cw-top-header__menu:hover { opacity: 0.9; }
+.cw-top-header__menu:focus { outline: 2px solid var(--text-secondary); outline-offset: 2px; }
+
+.cw-top-header__menu-icon {
+  display: inline-block;
+  width: 18px;
+  height: 12px;
+  position: relative;
+}
+.cw-top-header__menu-icon::before,
+.cw-top-header__menu-icon::after,
+.cw-top-header__menu-icon span {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+}
+.cw-top-header__menu-icon::before { top: 0; }
+.cw-top-header__menu-icon::after { bottom: 0; }
+.cw-top-header__menu-icon span { top: 5px; }
+
+.cw-top-header__user {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+}
+
+.cw-top-header__user-name {
+  font-size: 14px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.cw-top-header__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Responsive handling */
+@media (max-width: 640px) {
+  .cw-top-header {
+    height: auto;
+    padding: 8px 12px;
+  }
+  .cw-top-header__left,
+  .cw-top-header__right {
+    gap: 8px;
+  }
+  .cw-top-header__title {
+    font-size: 15px;
+  }
+}
