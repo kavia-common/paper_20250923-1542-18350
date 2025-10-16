@@ -151,12 +151,43 @@
 .cw-bed.is-empty {
   opacity: 0.85;
 }
+/* Brand color variables with fallbacks to maintain light/dark compatibility */
+:root {
+  --brand-blue: #1976d2; /* default brand blue */
+  --brand-blue-contrast: #ffffff; /* on-brand text color */
+}
+[data-theme="dark"] {
+  /* Keep blue vivid in dark theme and ensure strong contrast */
+  --brand-blue: #1976d2;
+  --brand-blue-contrast: #ffffff;
+}
+
 .cw-bed__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px; /* reduced padding */
   border-bottom: 1px solid var(--border-color);
+}
+
+/* Uniform card header treatment using brand blue */
+.card-header {
+  background: var(--brand-blue, #1976d2);
+  color: var(--brand-blue-contrast, #ffffff);
+  border-bottom-color: rgba(255,255,255,0.18);
+}
+
+/* Ensure inner text/icons in card headers are readable */
+.card-header .cw-bed__name,
+.card-header .cw-icon {
+  color: var(--brand-blue-contrast, #ffffff);
+}
+
+/* Resist accidental overrides from hover/active states on header area */
+.card-header:hover,
+.card-header:active {
+  background: var(--brand-blue, #1976d2);
+  color: var(--brand-blue-contrast, #ffffff);
 }
 .cw-bed__name {
   font-weight: 700;
@@ -299,8 +330,22 @@
 .cw-table thead th {
   position: sticky;
   top: 0;
-  background: var(--bg-secondary);
+  background: var(--brand-blue, #1976d2);
+  color: var(--brand-blue-contrast, #ffffff);
   font-weight: 700; /* Bold header text */
+}
+
+/* Apply header styling when thead has .table-header for stronger specificity */
+.cw-table thead.table-header th {
+  background: var(--brand-blue, #1976d2);
+  color: var(--brand-blue-contrast, #ffffff);
+}
+
+/* Prevent hover/active rows from affecting header */
+.cw-table thead th:hover,
+.cw-table thead th:active {
+  background: var(--brand-blue, #1976d2);
+  color: var(--brand-blue-contrast, #ffffff);
 }
 
 /* Ensure header and generic table th semantics are bold by default */

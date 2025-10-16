@@ -11,7 +11,7 @@ export function RegisteredPatientsTable({
   return (
     <div className="cw-tablewrap">
       <table className="cw-table">
-        <thead>
+        <thead className="table-header">
           <tr>
             <th scope="col">Name</th>
             <th scope="col">HN</th>

@@ -28,7 +28,7 @@ export function BedCard({ bed }: { bed: Bed }): JSX.Element {
       tabIndex={0}
       aria-label={`${bed.name}${bed.occupied && p ? `, occupied by ${p.name}` : ', empty'}`}
     >
-      <div className="cw-bed__header">
+      <div className="cw-bed__header card-header">
         <span className="cw-bed__name">{bed.name}</span>
         <div className="cw-bed__icons">
           {hasAllergy && <Icon label="Allergy alert" symbol="⚠️" />}
