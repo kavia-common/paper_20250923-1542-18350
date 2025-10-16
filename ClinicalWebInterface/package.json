@@ -18,7 +18,8 @@
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {
-    "typescript": "^4.9.5"
+    "cross-env": "^7.0.3",
+    "typescript": "^5.9.3"
   },
   "scripts": {
     "start": "BROWSER=none CI=true react-scripts start",
@@ -40,9 +41,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "typescript": "^5.9.3"
   }
 }
