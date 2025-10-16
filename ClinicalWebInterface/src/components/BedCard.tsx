@@ -36,36 +36,37 @@ export function BedCard({ bed }: { bed: Bed }): JSX.Element {
       {bed.occupied && p ? (
         <div className="cw-bed__body cw-bed__body--vertical">
           <div className="cw-stack">
-            <div className="cw-line">
-              <span className="cw-labeltext">Patient</span>
-              <span className="cw-valuetext">
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Patient</span>
+              <span className="kv-value">
                 {p.name} <span className="cw-mute">({p.gender}, {p.age})</span>
               </span>
             </div>
 
-            <div className="cw-line">
-              <span className="cw-labeltext">Identifiers</span>
-              <span className="cw-valuetext">
-                HN: {p.hn} {p.an ? <span className="cw-mute">/ AN: {p.an}</span> : null}
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Identifiers</span>
+              <span className="kv-value">
+                HN {p.hn}{' '}
+                {p.an ? <span className="cw-mute">• AN {p.an}</span> : null}
               </span>
             </div>
 
-            <div className="cw-line">
-              <span className="cw-labeltext">Status</span>
-              <span className="cw-valuetext">{p.status}</span>
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Status</span>
+              <span className="kv-value">{p.status}</span>
             </div>
 
-            <div className="cw-line">
-              <span className="cw-labeltext">Summary</span>
-              <span className="cw-valuetext">
+            <div className="kv-row kv-row--indent">
+              <span className="kv-label">Summary</span>
+              <span className="kv-value">
                 {(p.caseType || '-')}{p.surgeon ? ` • ${p.surgeon}` : ''}{p.procedure ? ` • ${p.procedure}` : ''}{p.diagnosis ? ` • ${p.diagnosis}` : ''}
               </span>
             </div>
 
             {(p.allergies && p.allergies.length > 0) || (p.precautions && p.precautions.length > 0) ? (
-              <div className="cw-line">
-                <span className="cw-labeltext">Notes</span>
-                <span className="cw-valuetext">
+              <div className="kv-row kv-row--indent">
+                <span className="kv-label">Notes</span>
+                <span className="kv-value">
                   {p.allergies && p.allergies.length ? `Allergies: ${p.allergies.join(', ')}` : ''}
                   {p.allergies && p.allergies.length && p.precautions && p.precautions.length ? ' • ' : ''}
                   {p.precautions && p.precautions.length ? `Precautions: ${p.precautions.join(', ')}` : ''}

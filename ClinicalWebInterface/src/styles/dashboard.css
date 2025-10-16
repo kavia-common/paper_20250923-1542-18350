@@ -164,30 +164,85 @@
 .cw-bed__body {
   padding: 12px 14px;
 }
+
+/* Stack of rows within card body */
 .cw-bed__body--vertical .cw-stack {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
+/* New key-value row utilities for consistent label/value presentation */
+.kv-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px; /* space between label colon and value */
+  min-width: 0;
+  line-height: 1.35;
+  flex-wrap: wrap; /* allow wrapping on small screens */
+}
+
+/* Left indentation for all content rows within cards */
+.kv-row--indent {
+  padding-left: 8px; /* subtle indent */
+}
+
+/* Label (key) and value styles */
+.kv-label {
+  font-weight: 700; /* bold label */
+  color: var(--text-primary);
+  white-space: nowrap; /* keep label intact */
+  flex: 0 0 auto;
+}
+
+/* Add a colon consistently after labels */
+.kv-label::after {
+  content: ":";
+  margin-left: 2px;
+}
+
+/* Value (normal weight, wraps when needed) */
+.kv-value {
+  font-weight: 400;
+  color: var(--text-primary);
+  min-width: 0;
+  flex: 1 1 auto;
+  word-break: break-word; /* handle long words/identifiers */
+}
+
+/* Muted inline spans (e.g., gender/age, AN) */
+.cw-mute {
+  opacity: 0.75;
+}
+
+/* Backward-compat: map previous line/label/value classes to new kv-row system */
 .cw-line {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: flex-start;
+  gap: 8px;
   min-width: 0;
+  flex-wrap: wrap;
+  padding-left: 8px;
 }
 .cw-labeltext {
-  font-size: 12px;
-  opacity: 0.75;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.cw-labeltext::after {
+  content: ":";
+  margin-left: 2px;
 }
 .cw-valuetext {
   font-size: 14px;
   line-height: 1.35;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.cw-mute {
-  opacity: 0.75;
+  min-width: 0;
+  flex: 1 1 auto;
+  word-break: break-word;
+  white-space: normal; /* allow wrapping */
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .cw-bed__empty {
