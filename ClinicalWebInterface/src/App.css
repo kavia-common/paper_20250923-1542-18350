@@ -3,10 +3,18 @@
   /* Light theme colors */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
+  --text-primary: #0F172A;  /* brand dark */
+  --text-secondary: #2563EB; /* brand primary for links */
   --border-color: #e9ecef;
-  --button-bg: #007bff;
+
+  /* Brand variables */
+  --brand-primary: #2563EB; /* blue */
+  --brand-accent:  #10B981; /* green */
+  --brand-dark:    #0F172A; /* dark text */
+  --brand-bg:      #F8FAFC; /* light background */
+
+  /* Buttons map to brand primary */
+  --button-bg: var(--brand-primary);
   --button-text: #ffffff;
 
   /* Global gutters for inner padding (content areas only) */

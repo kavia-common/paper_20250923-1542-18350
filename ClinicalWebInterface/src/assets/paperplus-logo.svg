@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180" height="44" viewBox="0 0 180 44" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Paper+">
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="180" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  <!-- Wordmark -->
+  <g font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="800">
+    <text x="0" y="30" font-size="28" fill="#0F172A" letter-spacing="-0.5">Paper</text>
+    <!-- Plus accent -->
+    <g transform="translate(124,6)">
+      <rect x="0" y="0" width="32" height="32" rx="8" fill="url(#accent)"/>
+      <g transform="translate(6,6)">
+        <rect x="10" y="0" width="4" height="20" rx="2" fill="white"/>
+        <rect x="0" y="8" width="20" height="4" rx="2" fill="white"/>
+      </g>
+    </g>
+  </g>
+</svg>

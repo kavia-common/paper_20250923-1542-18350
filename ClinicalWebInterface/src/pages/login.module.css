@@ -1,0 +1,141 @@
+:root {
+  /* Brand palette for reference; not global since this is a CSS module */
+  --brand-primary: #2563EB; /* blue */
+  --brand-accent:  #10B981; /* green */
+  --brand-dark:    #0F172A; /* dark text */
+  --brand-bg:      #F8FAFC; /* light background */
+}
+
+/* Container */
+.loginWrap {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px 16px;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(37,99,235,0.10), transparent 60%),
+    radial-gradient(1200px 600px at 90% 90%, rgba(16,185,129,0.10), transparent 60%),
+    var(--brand-bg);
+}
+
+/* Card */
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+/* Logo */
+.logoBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.brandTitle {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--brand-dark);
+}
+
+.brandPlus {
+  color: var(--brand-primary);
+}
+
+/* Subtext */
+.subtext {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* Form */
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+.label {
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: var(--brand-dark);
+  opacity: 0.85;
+}
+
+.input {
+  background: #ffffff;
+  color: var(--brand-dark);
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.20);
+}
+
+/* Button */
+.button {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.92) 0%, rgba(16,185,129,0.92) 140%), var(--brand-primary);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+  transition: transform 0.05s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+.button:active {
+  transform: translateY(0);
+}
+.button[aria-busy="true"] {
+  opacity: 0.85;
+  cursor: wait;
+}
+
+.footerNote {
+  margin-top: 14px;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.65;
+}
+
+/* Dark theme adaptation via data-attribute on html set by App.tsx */
+:global([data-theme="dark"]) .card {
+  background: #0f172a;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+:global([data-theme="dark"]) .label,
+:global([data-theme="dark"]) .brandTitle,
+:global([data-theme="dark"]) .subtext,
+:global([data-theme="dark"]) .footerNote {
+  color: #E5E7EB;
+}
+:global([data-theme="dark"]) .input {
+  background: #111827;
+  color: #E5E7EB;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+:global([data-theme="dark"]) .input:focus {
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.25);
+}
