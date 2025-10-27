@@ -11,22 +11,27 @@
   display: grid;
   place-items: center;
   min-height: 100vh;
-  padding: 24px 16px;
+  padding: 8px 8px; /* tighter outer padding */
   background:
     radial-gradient(1200px 600px at 10% 10%, rgba(37,99,235,0.10), transparent 60%),
     radial-gradient(1200px 600px at 90% 90%, rgba(16,185,129,0.10), transparent 60%),
     var(--brand-bg);
 }
 
+/* Optional compact variant to remove extra space entirely if needed */
+.loginWrap.compact {
+  padding: 4px; /* ultra-compact */
+}
+
 /* Card */
 .card {
   width: 100%;
-  max-width: 440px;
+  max-width: 420px; /* slightly reduced max width */
   background: #ffffff;
   border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 16px;
-  padding: 22px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.06);
+  border-radius: 12px; /* slightly smaller radius */
+  padding: 14px; /* reduced inner padding */
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.06);
 }
 
 /* Logo */
@@ -34,16 +39,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 6px; /* reduce horizontal gap */
+  margin: 0; /* remove extra margin */
 }
 
+/* No title text by design; ensure any brand title has zero margins */
 .brandTitle {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.05;
   color: var(--brand-dark);
+  margin: 0; /* remove top/bottom gaps */
 }
 
 .brandPlus {
@@ -54,7 +61,7 @@
 .subtext {
   font-size: 12px;
   opacity: 0.7;
-  margin-top: 2px;
+  margin: 2px 0 8px; /* tight spacing under logo, small bottom space before form */
   text-align: center;
 }
 
@@ -62,13 +69,14 @@
 .field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 12px;
+  margin: 0 0 8px; /* tighter vertical rhythm */
 }
 .label {
   font-size: 12px;
-  margin-bottom: 6px;
+  margin: 0 0 4px; /* reduce gap above/below label */
   color: var(--brand-dark);
   opacity: 0.85;
+  line-height: 1.2;
 }
 
 .input {
@@ -76,7 +84,7 @@
   color: var(--brand-dark);
   border: 1px solid rgba(15, 23, 42, 0.15);
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 8px 10px; /* slightly reduced padding */
   font-size: 0.95rem;
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
@@ -84,7 +92,7 @@
 .input:focus {
   outline: none;
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.20);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
 }
 
 /* Button */
@@ -92,17 +100,18 @@
   width: 100%;
   border: none;
   border-radius: 10px;
-  padding: 10px 14px;
+  padding: 9px 12px; /* slightly reduced */
   font-weight: 700;
   color: #ffffff;
   cursor: pointer;
   background: linear-gradient(180deg, rgba(37, 99, 235, 0.92) 0%, rgba(16,185,129,0.92) 140%), var(--brand-primary);
-  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
   transition: transform 0.05s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 6px; /* small separation from last field */
 }
 
 .button:hover {
-  opacity: 0.95;
+  opacity: 0.96;
   transform: translateY(-1px);
 }
 .button:active {
@@ -114,7 +123,7 @@
 }
 
 .footerNote {
-  margin-top: 14px;
+  margin-top: 8px; /* reduced footer spacing */
   font-size: 12px;
   text-align: center;
   opacity: 0.65;
@@ -137,5 +146,16 @@
   border-color: rgba(255, 255, 255, 0.18);
 }
 :global([data-theme="dark"]) .input:focus {
-  box-shadow: 0 0 0 3px rgba(16,185,129,0.25);
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.22);
+}
+
+/* Responsive tweaks to preserve compactness while ensuring usability */
+@media (max-width: 640px) {
+  .card {
+    max-width: 420px;
+    padding: 12px;
+  }
+  .loginWrap {
+    padding: 6px;
+  }
 }
