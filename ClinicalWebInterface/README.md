@@ -23,7 +23,7 @@ If you are using a remote preview URL and you see "Invalid Host header", see the
 ### `npm run start:api`
 
 Starts a lightweight Express API at http://localhost:4000 providing:
-- POST `/api/login` (validates hardcoded credentials: `login@papaer.com` / `Pass@123`)
+- POST `/api/login` (validates hardcoded credentials: `login@papaer.com` / `Pass@123`, trims whitespace on inputs)
 - GET `/api/me`
 - POST `/api/logout`
 

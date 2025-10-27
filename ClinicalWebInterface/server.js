@@ -23,25 +23,41 @@ function buildToken(email) {
   return Buffer.from(`${email}|${Date.now()}`).toString('base64');
 }
 
-// PUBLIC_INTERFACE
-// POST /api/login - validate hardcoded credentials and return success + token
-app.post('/api/login', (req, res) => {
-  /**
-   * Login endpoint
-   * Body: { email: string, password: string }
-   * Success: 200 { success: true, token: string, user: { id, email, name } }
-   * Failure: 401 { success: false, message: 'Invalid credentials' }
-   */
-  const { email, password } = req.body || {};
-  if (email === VALID_EMAIL && password === VALID_PASS) {
-    const token = buildToken(email);
-    const user = { id: 'demo-user-1', email, name: 'Demo User' };
-    // For simplicity, also set a non-httpOnly cookie (demo only)
-    res.cookie('demo_token', token, { sameSite: 'Lax' });
-    return res.json({ success: true, token, user });
-  }
-  return res.status(401).json({ success: false, message: 'Invalid credentials' });
-});
+ // PUBLIC_INTERFACE
+ // POST /api/login - validate hardcoded credentials and return success + token
+ app.post('/api/login', (req, res) => {
+   /**
+    * Login endpoint
+    * Body: { email: string, password: string }
+    * Success: 200 { success: true, token: string, user: { id, email, name } }
+    * Failure: 401 { success: false, message: 'Invalid credentials' }
+    */
+   let { email, password } = req.body || {};
+ 
+   // Minimal diagnostic logging (mask password length only)
+   try {
+     const maskedLen = typeof password === 'string' ? password.length : 0;
+     console.log('[POST /api/login] payload:', {
+       email: typeof email === 'string' ? email : typeof email,
+       password_len: maskedLen,
+     });
+   } catch (_) {
+     // ignore logging failures
+   }
+ 
+   // Normalize basic input (trim to avoid accidental spaces)
+   if (typeof email === 'string') email = email.trim();
+   if (typeof password === 'string') password = password.trim();
+ 
+   if (email === VALID_EMAIL && password === VALID_PASS) {
+     const token = buildToken(email);
+     const user = { id: 'demo-user-1', email, name: 'Demo User' };
+     // For simplicity, also set a non-httpOnly cookie (demo only)
+     res.cookie('demo_token', token, { sameSite: 'Lax' });
+     return res.json({ success: true, token, user });
+   }
+   return res.status(401).json({ success: false, message: 'Invalid credentials' });
+ });
 
 // PUBLIC_INTERFACE
 // GET /api/me - validate token presence (cookie or Authorization header) and return a mock user

@@ -26,11 +26,16 @@ export default function Login(): JSX.Element {
     }
     setSubmitting(true);
     try {
+      // Normalize user input to avoid accidental whitespace mismatches
+      const payload = {
+        email: email.trim(),
+        password: typeof password === 'string' ? password.trim() : password,
+      };
       const res = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
         let message = 'Invalid credentials';
