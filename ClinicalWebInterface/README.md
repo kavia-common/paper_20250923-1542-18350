@@ -18,6 +18,19 @@ In the project directory, you can run:
 Runs the app in development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+### `npm run start:api`
+
+Starts a lightweight Express API at http://localhost:4000 providing:
+- POST `/api/login` (validates hardcoded credentials: `login@papaer.com` / `Pass@123`)
+- GET `/api/me`
+- POST `/api/logout`
+
+The React app is configured with a development proxy (`"proxy": "http://localhost:4000"`) so any frontend request to `/api/*` is forwarded to this API while running `npm start`.
+
+To test end-to-end locally, open two terminals:
+1. Terminal A: `npm run start:api`
+2. Terminal B: `npm start`
+
 ### `npm test`
 
 Launches the test runner in interactive watch mode.
@@ -26,6 +39,12 @@ Launches the test runner in interactive watch mode.
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+## Login Flow (Demo)
+
+- Navigate to `/login`
+- Use credentials: `login@papaer.com` and `Pass@123`
+- On success, you are redirected to `/dashboard`. A simple localStorage flag guards protected routes.
 
 ## Customization
 

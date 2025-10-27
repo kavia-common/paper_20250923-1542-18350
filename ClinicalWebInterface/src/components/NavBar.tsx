@@ -28,7 +28,7 @@ export default function NavBar(): JSX.Element {
         Clinical System
       </div>
       <div style={{ display: 'flex', gap: 12 }}>
-        <Link className={linkClass('/')} to="/">Dashboard</Link>
+        <Link className={linkClass('/dashboard')} to="/dashboard">Dashboard</Link>
         <Link className={linkClass('/live-chart')} to="/live-chart">Live Chart</Link>
       </div>
       <style>{`

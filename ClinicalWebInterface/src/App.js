@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 import './styles/dashboard.css';
 import './styles/header.css';
 import Dashboard from './pages/Dashboard.tsx';
 import LiveChartPage from './pages/LiveChartPage.tsx';
+import Login from './pages/Login.tsx';
 import NavBar from './components/NavBar.tsx';
+import PrivateRoute from './routes/PrivateRoute.tsx';
 
 // PUBLIC_INTERFACE
 function App() {
@@ -34,14 +36,55 @@ function App() {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
+  // Helper to conditionally render NavBar (hide on /login)
+  function Layout({ children }: { children: JSX.Element }): JSX.Element {
+    const location = useLocation();
+    const hideNav = location.pathname === '/login';
+    return (
+      <>
+        {!hideNav && <NavBar />}
+        {children}
+      </>
+    );
+  }
+
+  // Root redirection logic: if authenticated -> /dashboard, else -> /login
+  const RootRedirect = () => {
+    let authed = false;
+    try {
+      authed = localStorage.getItem('auth.isAuthenticated') === 'true';
+    } catch {
+      authed = false;
+    }
+    return <Navigate to={authed ? '/dashboard' : '/login'} replace />;
+  };
+
   return (
     <div className="App cw-app">
       <BrowserRouter>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/live-chart" element={<LiveChartPage />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<RootRedirect />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/live-chart"
+              element={
+                <PrivateRoute>
+                  <LiveChartPage />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
 
       <button
