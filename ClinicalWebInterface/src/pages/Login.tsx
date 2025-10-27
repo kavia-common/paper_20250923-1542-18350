@@ -51,7 +51,7 @@ export default function Login(): JSX.Element {
         </div>
         <div className={styles.subtext}>Sign in to continue</div>
 
-        <form onSubmit={onSubmit} style={{ marginTop: 6 }}>
+        <form onSubmit={onSubmit}>
           <div className={styles.field}>
             <label className={styles.label} htmlFor="email">Email</label>
             <input
