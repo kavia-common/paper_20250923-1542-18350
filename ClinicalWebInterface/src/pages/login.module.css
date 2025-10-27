@@ -43,25 +43,38 @@
 
 /* Logo and title row */
 .logoBox {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs); /* minimal gap */
+  gap: 0; /* eliminate any visual gap between elements */
   margin: 0; /* remove extra margin */
+  line-height: 1; /* avoid extra inline spacing */
 }
 
-/* No title text by design; ensure any brand title has zero margins */
+/* Title fallback: ensure exact "Paper+" with no spacing and tight kerning */
 .brandTitle {
   font-size: 18px; /* slightly smaller */
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  letter-spacing: 0; /* do not introduce spacing */
+  line-height: 1;
   color: var(--brand-dark);
   margin: 0; /* remove top/bottom gaps */
+  padding: 0;
+  display: inline-block;
 }
 
+/* If "+" is ever wrapped, eliminate any added spacing */
 .brandPlus {
   color: var(--brand-primary);
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure the img doesn't add default spacing */
+.brandImage {
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 /* Subtext */
@@ -70,6 +83,12 @@
   opacity: 0.7;
   margin: var(--space-xxs) 0 var(--space-sm); /* very tight spacing under logo */
   text-align: center;
+}
+
+/* Guard against any accidental spacing in brand container */
+.logoBox * {
+  letter-spacing: 0 !important;
+  word-spacing: 0 !important;
 }
 
 /* Form */

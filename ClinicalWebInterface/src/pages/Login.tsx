@@ -41,13 +41,17 @@ export default function Login(): JSX.Element {
     <div className={styles.loginWrap}>
       <main className={styles.card} aria-label="Paper+ Sign In">
         <div className={styles.logoBox}>
+          {/* Prefer SVG logo; if it fails to load, render tight text fallback with no spacing */}
           <img
             src={logoUrl}
             width={180}
             height={44}
             alt="Paper+"
-            style={{ display: 'block' }}
+            className={styles.brandImage}
           />
+          <noscript>
+            <h1 className={styles.brandTitle} aria-label="Paper+">Paper+</h1>
+          </noscript>
         </div>
         <div className={styles.subtext}>Sign in to continue</div>
 
