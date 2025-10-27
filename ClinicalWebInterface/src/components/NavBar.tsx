@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { isAuthenticated, logout as clientLogout } from '../utils/authStorage.ts';
 
 /**
  * PUBLIC_INTERFACE
@@ -7,9 +8,20 @@ import { Link, useLocation } from 'react-router-dom';
  */
 export default function NavBar(): JSX.Element {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const linkClass = (path: string) =>
     `cw-navlink${location.pathname === path ? ' is-active' : ''}`;
+
+  const handleLogout = () => {
+    // Clear client auth and navigate to login
+    try {
+      clientLogout();
+    } catch {}
+    navigate('/login', { replace: true });
+  };
+
+  const authed = isAuthenticated();
 
   return (
     <nav
@@ -27,9 +39,21 @@ export default function NavBar(): JSX.Element {
       <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
         Clinical System
       </div>
-      <div style={{ display: 'flex', gap: 12 }}>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
         <Link className={linkClass('/dashboard')} to="/dashboard">Dashboard</Link>
         <Link className={linkClass('/live-chart')} to="/live-chart">Live Chart</Link>
+        {authed && (
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="cw-btn cw-btn--secondary"
+            style={{ padding: '6px 10px' }}
+            aria-label="Logout"
+            title="Logout"
+          >
+            Logout
+          </button>
+        )}
       </div>
       <style>{`
         .cw-navbar a {

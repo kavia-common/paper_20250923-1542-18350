@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setAuthenticated } from '../utils/authStorage.ts';
 
 // PUBLIC_INTERFACE
 export default function Login(): JSX.Element {
@@ -24,10 +25,12 @@ export default function Login(): JSX.Element {
     // const isValid = email.trim() === 'login@papaer.com' && password.trim() === 'Pass@123';
     // For current requirement, we always proceed regardless of validation:
     try {
-      localStorage.setItem('auth.isAuthenticated', 'true');
-      // Optionally store minimal user info locally (not required for guard)
-      const demoUser = { id: 'demo-user-1', email: email.trim() || 'login@papaer.com', name: 'Demo User' };
-      localStorage.setItem('auth.user', JSON.stringify(demoUser));
+      // set auth flag via utility and store minimal user info (optional)
+      setAuthenticated(true);
+      const demoUser = { id: 'demo-user-1', email: email.trim() || 'login@example.com', name: 'User' };
+      try {
+        localStorage.setItem('auth.user', JSON.stringify(demoUser));
+      } catch {}
     } catch {
       // ignore storage failures; PrivateRoute will treat as not authed if storage is unavailable
     } finally {

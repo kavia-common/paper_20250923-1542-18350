@@ -8,6 +8,7 @@ import LiveChartPage from './pages/LiveChartPage.tsx';
 import Login from './pages/Login.tsx';
 import NavBar from './components/NavBar.tsx';
 import PrivateRoute from './routes/PrivateRoute.tsx';
+import { isAuthenticated } from './utils/authStorage.ts';
 
 // PUBLIC_INTERFACE
 function App() {
@@ -50,12 +51,7 @@ function App() {
 
   // Root redirection logic: if authenticated -> /dashboard, else -> /login
   const RootRedirect = () => {
-    let authed = false;
-    try {
-      authed = localStorage.getItem('auth.isAuthenticated') === 'true';
-    } catch {
-      authed = false;
-    }
+    const authed = isAuthenticated();
     return <Navigate to={authed ? '/dashboard' : '/login'} replace />;
   };
 

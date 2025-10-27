@@ -52,10 +52,13 @@ The proxy remains configured, but the login flow does not depend on the backend.
 
 Security note: Do not use these settings in production. Builds created with `npm run build` do not use the dev server and are unaffected.
 
-## Login Flow (Demo)
+## Login and Logout Flow (Demo)
 
 - Navigate to `/login`
-- Click "Sign In" to be redirected to `/dashboard`. Protected routes are guarded by a simple localStorage flag.
+- Click "Sign In" to be redirected to `/dashboard`.
+- Protected routes are guarded by a localStorage flag `auth.isAuthenticated === "true"`.
+- A "Logout" button appears in the top navigation when authenticated. Clicking it clears client auth state and redirects to `/login`.
+- Visiting `/` redirects to `/dashboard` when authenticated, and to `/login` otherwise.
 
 ## Customization
 
