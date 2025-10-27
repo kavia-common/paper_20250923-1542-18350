@@ -66,7 +66,6 @@ export default function Login(): JSX.Element {
     <div className="cw-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
       <main className="cw-card" style={{ width: 360, padding: 16, border: '1px solid var(--border-color)', borderRadius: 8, background: 'var(--bg-secondary)' }}>
         <h1 style={{ marginTop: 0, marginBottom: 8, fontSize: 20, color: 'var(--text-primary)' }}>Login</h1>
-        <p style={{ marginTop: 0, marginBottom: 16, opacity: 0.8 }}>Use demo credentials: login@papaer.com / Pass@123</p>
         <form onSubmit={onSubmit}>
           <div className="cw-field" style={{ marginBottom: 10 }}>
             <label className="cw-label" htmlFor="email">Email</label>
