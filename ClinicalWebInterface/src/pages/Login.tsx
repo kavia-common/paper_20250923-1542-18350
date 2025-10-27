@@ -4,67 +4,37 @@ import { useNavigate } from 'react-router-dom';
 // PUBLIC_INTERFACE
 export default function Login(): JSX.Element {
   /**
-   * Simple login form:
-   * - Validates non-empty email/password.
-   * - Calls POST /api/login via fetch.
-   * - On success, sets a flag in localStorage and navigates to /dashboard.
-   * - On failure, shows inline error.
+   * Simple login form (frontend-only):
+   * - No backend call. On submit, immediately sets auth flag and navigates to /dashboard.
+   * - Keeps basic input handling for UI consistency.
+   * - PrivateRoute relies on localStorage flag 'auth.isAuthenticated' === 'true'.
+   *
+   * Note: Demo credentials text intentionally not shown in UI.
    */
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-
-    if (!email.trim() || !password) {
-      setError('Please enter both email and password.');
-      return;
-    }
     setSubmitting(true);
+
+    // Option A (hardcoded check): keep for future toggling if validation desired
+    // const isValid = email.trim() === 'login@papaer.com' && password.trim() === 'Pass@123';
+    // For current requirement, we always proceed regardless of validation:
     try {
-      // Normalize user input to avoid accidental whitespace mismatches
-      const payload = {
-        email: email.trim(),
-        password: typeof password === 'string' ? password.trim() : password,
-      };
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) {
-        let message = 'Invalid credentials';
-        try {
-          const j = await res.json();
-          if (j?.message) message = j.message;
-        } catch {}
-        throw new Error(message);
-      }
-      const data = await res.json();
-      if (data?.success) {
-        try {
-          localStorage.setItem('auth.isAuthenticated', 'true');
-          if (data?.token) {
-            localStorage.setItem('auth.token', data.token);
-          }
-          if (data?.user) {
-            localStorage.setItem('auth.user', JSON.stringify(data.user));
-          }
-        } catch {}
-        navigate('/dashboard', { replace: true });
-        return;
-      }
-      throw new Error('Login failed');
-    } catch (err: any) {
-      setError(err?.message || 'Login failed');
+      localStorage.setItem('auth.isAuthenticated', 'true');
+      // Optionally store minimal user info locally (not required for guard)
+      const demoUser = { id: 'demo-user-1', email: email.trim() || 'login@papaer.com', name: 'Demo User' };
+      localStorage.setItem('auth.user', JSON.stringify(demoUser));
+    } catch {
+      // ignore storage failures; PrivateRoute will treat as not authed if storage is unavailable
     } finally {
       setSubmitting(false);
     }
+
+    navigate('/dashboard', { replace: true });
   };
 
   return (
@@ -97,12 +67,7 @@ export default function Login(): JSX.Element {
             />
           </div>
 
-          {error ? (
-            <div role="alert" style={{ color: '#b00020', marginBottom: 10, fontSize: 14 }}>
-              {error}
-            </div>
-          ) : null}
-
+          {/* Error display removed for clean UI since login no longer fails */}
           <button
             type="submit"
             className="cw-btn cw-btn--primary"

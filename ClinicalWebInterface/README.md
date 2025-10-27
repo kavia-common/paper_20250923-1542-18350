@@ -20,18 +20,14 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 If you are using a remote preview URL and you see "Invalid Host header", see the section "Fix Invalid Host header (Preview)".
 
-### `npm run start:api`
+### API note for Login (Demo)
 
-Starts a lightweight Express API at http://localhost:4000 providing:
-- POST `/api/login` (validates hardcoded credentials: `login@papaer.com` / `Pass@123`, trims whitespace on inputs)
-- GET `/api/me`
-- POST `/api/logout`
+The demo login flow is now frontend-only. Clicking "Sign In" on `/login` sets a localStorage flag and navigates to `/dashboard` without calling the backend. Running the Express demo API is no longer required for login or navigation.
 
-The React app is configured with a development proxy (`"proxy": "http://localhost:4000"`) so any frontend request to `/api/*` is forwarded to this API while running `npm start`.
+If you still want to explore the demo API for other endpoints, you can start it:
 
-To test end-to-end locally, open two terminals:
-1. Terminal A: `npm run start:api`
-2. Terminal B: `npm start`
+- `npm run start:api` to run a lightweight Express API at http://localhost:4000
+- The CRA dev server proxy (`"proxy": "http://localhost:4000"`) forwards `/api/*` in development.
 
 ### `npm test`
 
@@ -52,15 +48,14 @@ This project includes a development-only override file `.env.development` with:
 
 These settings apply only to `npm start` and do not affect production builds.
 
-No changes are required to the proxy: `"proxy": "http://localhost:4000"` remains active so `/api/*` calls are forwarded to the local dev API.
+The proxy remains configured, but the login flow does not depend on the backend.
 
 Security note: Do not use these settings in production. Builds created with `npm run build` do not use the dev server and are unaffected.
 
 ## Login Flow (Demo)
 
 - Navigate to `/login`
-- Use credentials: `login@papaer.com` and `Pass@123`
-- On success, you are redirected to `/dashboard`. A simple localStorage flag guards protected routes.
+- Click "Sign In" to be redirected to `/dashboard`. Protected routes are guarded by a simple localStorage flag.
 
 ## Customization
 
