@@ -18,6 +18,8 @@ In the project directory, you can run:
 Runs the app in development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+If you are using a remote preview URL and you see "Invalid Host header", see the section "Fix Invalid Host header (Preview)".
+
 ### `npm run start:api`
 
 Starts a lightweight Express API at http://localhost:4000 providing:
@@ -39,6 +41,20 @@ Launches the test runner in interactive watch mode.
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
+
+## Fix "Invalid Host header" (Preview)
+
+Some preview environments access the CRA dev server via a non-local hostname. Webpack Dev Server performs host checks and will show "Invalid Host header".  
+This project includes a development-only override file `.env.development` with:
+
+- `HOST=0.0.0.0` to bind the dev server on all interfaces
+- `DANGEROUSLY_DISABLE_HOST_CHECK=true` to allow external preview hosts during development
+
+These settings apply only to `npm start` and do not affect production builds.
+
+No changes are required to the proxy: `"proxy": "http://localhost:4000"` remains active so `/api/*` calls are forwarded to the local dev API.
+
+Security note: Do not use these settings in production. Builds created with `npm run build` do not use the dev server and are unaffected.
 
 ## Login Flow (Demo)
 
